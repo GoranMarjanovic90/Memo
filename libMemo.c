@@ -98,26 +98,35 @@ void find(){
 
 
 int deletee(){
-    FILE *ph, *pp;
-    int i,j;
-    char message[100]="";
-    char h[80],hh[80],str[200];
+    char str[200],date[50],message[200];
+    FILE *pp,*ph;
+    int id, i;
+    printf("Which entry do you want to delete:\n");
+    scanf("%d", &i);
+    /*Fix bug:
+        Debugged where the comma seperated values file got "double commas" in style: ,, after I deleted an entry 
+        I used a normal file instead */
+  
+    pp=fopen("memo.csv","r");
+    ph=fopen("tmp.txt","w");
+        if(pp==NULL||ph==NULL){
+            printf("Error opening file");
+            return 1;
+    }
 
-    printf("which entry do you want to delete:\n");
-    scanf("%d",&j);
-    ph=fopen("memo.csv","r");
-    pp=fopen("file.csv", "w");
-    while(fgets(str,200,ph)){
+    while(fgets(str,200,pp)){
+        sscanf(str,"%d,%s,%s",&id,&date,&message);
+        if(id != i)
+            fprintf(ph,"%s",str);
 
-        sscanf(str,"%d,%s %s,%s",&i,hh,h,message);
-        if(i!=j)
-            fprintf(pp,"%d,%s %s,%s\n",i,hh,h,message);
     }
     fclose(pp);
     fclose(ph);
-    remove("memo.csv");
-    rename("file.csv","memo.csv");
 
+    remove("memo.csv");
+    rename("tmp.txt","memo.csv");
+
+    return 0;
     EXIT_SUCCESS;
 }
 

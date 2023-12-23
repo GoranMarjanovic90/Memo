@@ -11,7 +11,7 @@ void main(){
     so:
         printf("-h Show this help.\n");
         scanf("%s",h);
-            sleep(1);         
+                    
             if(strcmp(h,"-h")==0){
                 soo:
                 //Giving various options help to choose from
